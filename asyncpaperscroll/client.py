@@ -25,7 +25,11 @@ class AsyncPaperScrollClient:
             logger.exception('Merchant ID is not specifed!')
             raise NotImplementedError("Merchant ID is not specified")
 
-        self.token = base64.b64encode(f'{self.merchant_id}:{self.access_token}')
+        self.access_token = access_token
+        self.merchant_id = merchant_id
+
+        self.token = base64.b64encode(
+            f'{merchant_id}:{access_token}'.encode()).decode()
         self.api_url = 'https://paper-scroll.ru/api/{}'
 
     async def request(
