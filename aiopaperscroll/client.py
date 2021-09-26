@@ -13,16 +13,16 @@ class AsyncPaperScrollClient:
             merchant_id: typing.Optional[int] = None, 
             **kwargs: typing.Any):
         """
-        :param str access_token: Токен вашей группы
+        :param str access_token: Токен вашего магазина
         :param int merchant_id: Идентификатор вашего магазина
         """
 
         if not access_token: 
-            logger.exception('Access token is not specifed!')
+            logger.error('Access token is not specifed!')
             raise NotImplementedError("Access token is not specified")
 
         if not merchant_id: 
-            logger.exception('Merchant ID is not specifed!')
+            logger.error('Merchant ID is not specifed!')
             raise NotImplementedError("Merchant ID is not specified")
 
         self.access_token = access_token
@@ -38,25 +38,25 @@ class AsyncPaperScrollClient:
         params: typing.Optional[dict] = None,
         **kwargs: typing.Any
     ) -> dict: 
-
-        async with aiohttp.request(
-            'POST', 
-            url = self.api_url.format(self.method), 
-            json = self.params, 
+        async with aiohttp.ClientSession() as session, session.request('POST', 
+            url = self.api_url.format(method), 
+            json = params, 
             headers = {'Authorization': 'Basic {}'.format(self.token)}) as response:
 
-                response.json()
+                response = await response.json()
 
                 if 'error' in response:
-                    logger.error(response['error']['error_code'],
-                                 response['error']['error_msg'],
-                                 response['error']['error_text'])
-
+                    text_error=f"{response['error']['error_msg']} ({response['error']['error_code']}) - {response['error']['error_text']}"                    
+                    logger.error(text_error)
                     raise ApiError(response['error']['error_code'],
                                    response['error']['error_msg'],
                                    response['error']['error_text'])
 
                 return response['response']
+
+
+                
+
 
 
 

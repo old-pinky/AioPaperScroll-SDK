@@ -9,7 +9,7 @@ class AsyncPaperScroll:
             merchant_id: typing.Optional[int] = None,
             **kwargs: typing.Any):
         """
-        :param str access_token: Токен вашей группы
+        :param str access_token: Токен вашего магазина
         :param int merchant_id: Идентификатор вашего магазина
         """
 
