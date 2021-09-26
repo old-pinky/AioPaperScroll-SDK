@@ -6,8 +6,13 @@
 ### Установка
 
 ```js
+$ pip install aiopaperscroll
+```
+или 
+```js
 $ pip install https://github.com/old-pinky/AioPaperScroll-SDK/archive/refs/heads/main.zip
 ```
+
 
 ### Пример использования
 
